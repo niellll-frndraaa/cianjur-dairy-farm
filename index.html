@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumbawa Beef | Peternakan Sapi Potong Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* CSS Variables untuk Warna (Earth Tones) */
+        :root {
+            --primary: #2e7d32; /* Hijau Alam */
+            --secondary: #d84315; /* Oranye Bata/Tanah */
+            --light: #f1f8e9;
+            --dark: #212121;
+            --wa: #25D366;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        html { scroll-behavior: smooth; }
+        body { background-color: #fafafa; color: var(--dark); }
+
+        /* Navbar */
+        nav { background: var(--primary); padding: 15px 5%; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        nav h1 { color: white; font-size: 24px; }
+        nav ul { display: flex; list-style: none; gap: 20px; }
+        nav a { color: white; text-decoration: none; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--secondary); }
+
+        /* Hero Section */
+        .hero { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1570042225831-d98fa7577f1e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80') center/cover; height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 0 20px; }
+        .hero h2 { font-size: 3rem; margin-bottom: 10px; animation: fadeInDown 1s; }
+        .hero p { font-size: 1.2rem; margin-bottom: 20px; animation: fadeInUp 1s; }
+        .btn { padding: 12px 30px; background: var(--secondary); color: white; text-decoration: none; border-radius: 30px; font-weight: bold; transition: 0.3s; display: inline-block; border: none; cursor: pointer; }
+        .btn:hover { background: #bf360c; transform: scale(1.05); }
+
+        /* Sections General */
+        section { padding: 80px 5%; }
+        .section-title { text-align: center; font-size: 2.5rem; color: var(--primary); margin-bottom: 40px; position: relative; }
+        .section-title::after { content: ''; width: 80px; height: 4px; background: var(--secondary); display: block; margin: 10px auto; border-radius: 2px; }
+
+        /* Profil & Misi (Grid) */
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .about-card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transition: 0.3s; border-left: 5px solid var(--primary); }
+        .about-card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .about-card h3 { color: var(--secondary); margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .about-card ul { list-style-position: inside; margin-top: 10px; }
+
+        /* Kualitas */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+        .feature-box { text-align: center; padding: 30px; background: white; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s; }
+        .feature-box i { font-size: 40px; color: var(--primary); margin-bottom: 15px; }
+        .feature-box:hover { background: var(--primary); color: white; }
+        .feature-box:hover i { color: white; }
+
+        /* Katalog */
+        .filter-btns { text-align: center; margin-bottom: 30px; }
+        .filter-btn { background: #e0e0e0; color: #333; margin: 0 5px; padding: 8px 20px; border-radius: 20px; }
+        .filter-btn.active { background: var(--primary); color: white; }
+        
+        .catalog-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .cow-card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: 0.4s; position: relative; }
+        .cow-card:hover { transform: translateY(-10px); }
+        .cow-img { height: 200px; width: 100%; object-fit: cover; }
+        .cow-badge { position: absolute; top: 15px; right: 15px; background: var(--secondary); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .cow-info { padding: 20px; }
+        .cow-info h4 { font-size: 1.2rem; color: var(--primary); margin-bottom: 10px; }
+        .cow-info p { font-size: 0.9rem; color: #666; margin-bottom: 5px; }
+        .cow-info .price { font-weight: bold; color: var(--secondary); font-size: 1.1rem; margin-top: 10px; }
+
+        /* Floating WA */
+        .floating-wa { position: fixed; bottom: 30px; right: 30px; background: var(--wa); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 30px; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4); z-index: 100; text-decoration: none; transition: 0.3s; animation: bounce 2s infinite; }
+        .floating-wa:hover { transform: scale(1.1); }
+
+        /* Footer */
+        footer { background: var(--dark); color: white; text-align: center; padding: 30px 5%; margin-top: 50px; }
+
+        /* Animations */
+        @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes bounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0); } 40% { transform: translateY(-15px); } 60% { transform: translateY(-7px); } }
+
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; }
+            nav ul { display: none; } /* Simplified for mobile */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <h1>🐂 Lembu Jaya Farm</h1>
+        <ul>
+            <li><a href="#profil">Profil</a></li>
+            <li><a href="#kualitas">Kualitas</a></li>
+            <li><a href="#katalog">Katalog Sapi</a></li>
+        </ul>
+    </nav>
+
+    <section class="hero">
+        <h2>Pusat Sapi Potong Berkualitas</h2>
+        <p>Menyediakan Sapi Simental dan Limosin unggulan untuk kebutuhan qurban, hajatan, dan pasokan daging dengan kualitas terjamin.</p>
+        <a href="#katalog" class="btn">Lihat Katalog Kami</a>
+    </section>
+
+    <section id="profil" class="light-bg">
+        <h2 class="section-title">Tentang Kami</h2>
+        <div class="about-grid">
+            <div class="about-card">
+                <h3><i class="fas fa-farm"></i> Profil Peternakan</h3>
+                <p>Lembu Jaya Farm adalah peternakan sapi potong modern yang berdedikasi tinggi dalam menghasilkan sapi pedaging berkualitas premium. Dirawat oleh tenaga ahli peternakan, kami memastikan setiap hewan ternak tumbuh optimal dengan pakan bernutrisi dan lingkungan yang bebas stres.</p>
+            </div>
+            <div class="about-card">
+                <h3><i class="fas fa-bullseye"></i> Misi Kami</h3>
+                <ul>
+                    <li>Menyediakan sapi potong sehat, gemuk, dan bersertifikat.</li>
+                    <li>Menerapkan sistem manajemen pakan konsentrat dan hijauan terbaik.</li>
+                    <li>Menjaga higienitas kandang untuk kesejahteraan hewan (Animal Welfare).</li>
+                    <li>Memberikan pelayanan transaksi yang jujur, transparan, dan amanah.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="kualitas">
+        <h2 class="section-title">Mengapa Memilih Kami?</h2>
+        <div class="features">
+            <div class="feature-box">
+                <i class="fas fa-stethoscope"></i>
+                <h4>Sehat & Divaksin</h4>
+                <p>Bebas PMK & LSD. Didampingi rutin oleh dokter hewan berlisensi.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-leaf"></i>
+                <h4>Pakan Premium</h4>
+                <p>Kombinasi hijauan segar dan konsentrat tinggi protein untuk pertumbuhan maksimal.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-weight-hanging"></i>
+                <h4>Bobot Akurat</h4>
+                <p>Penimbangan dilakukan secara transparan menggunakan timbangan digital presisi.</p>
+            </div>
+            <div class="feature-box">
+                <i class="fas fa-truck"></i>
+                <h4>Gratis Ongkir</h4>
+                <p>Pengiriman aman dan gratis untuk wilayah tertentu hingga depan rumah Anda.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="katalog" style="background-color: var(--light);">
+        <h2 class="section-title">Katalog Sapi Tersedia</h2>
+        
+        <div class="filter-btns">
+            <button class="btn filter-btn active" onclick="filterSapi('semua')">Semua Sapi</button>
+            <button class="btn filter-btn" onclick="filterSapi('Simental')">Simental</button>
+            <button class="btn filter-btn" onclick="filterSapi('Limosin')">Limosin</button>
+        </div>
+
+        <div class="catalog-grid" id="catalog-container">
+            </div>
+    </section>
+
+    <footer>
+        <h2>Lembu Jaya Farm</h2>
+        <p>Jl. Peternakan Makmur No. 123, Indonesia</p>
+        <p>&copy; 2026 Lembu Jaya Farm. All Rights Reserved.</p>
+    </footer>
+
+    <a href="https://wa.me/6281234567890?text=Halo%20Lembu%20Jaya%20Farm,%20saya%20tertarik%20dengan%20sapi%20yang%20ada%20di%20katalog." class="floating-wa" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Data 20 Sapi (10 Simental, 10 Limosin)
+        const dataSapi = [];
+        
+        // Generate 10 Simental
+        for(let i=1; i<=10; i++) {
+            let berat = 450 + (i * 35); // Simulasi berat acak namun masuk akal
+            dataSapi.push({
+                id: `SMT-00${i}`,
+                jenis: 'Simental',
+                berat: berat,
+                umur: '2 - 2.5 Tahun',
+                keterangan: 'Tulangan besar, dada lebar, sangat cocok untuk hewan qurban premium.',
+                img: 'https://images.unsplash.com/photo-1546453667-8a8d2d07bc20?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' // Foto Sapi Umum
+            });
+        }
+
+        // Generate 10 Limosin
+        for(let i=1; i<=10; i++) {
+            let berat = 480 + (i * 40); 
+            dataSapi.push({
+                id: `LMS-00${i}`,
+                jenis: 'Limosin',
+                berat: berat,
+                umur: '2 - 3 Tahun',
+                keterangan: 'Daging padat, persentase karkas tinggi. Postur panjang dan berotot.',
+                img: 'https://images.unsplash.com/photo-1606041047648-52f9b8c0bc37?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80' // Foto Sapi Umum
+            });
+        }
+
+        const container = document.getElementById('catalog-container');
+
+        // Fungsi menampilkan data ke HTML
+        function renderKatalog(data) {
+            container.innerHTML = '';
+            data.forEach(sapi => {
+                const card = `
+                    <div class="cow-card">
+                        <span class="cow-badge">${sapi.jenis}</span>
+                        <img src="${sapi.img}" alt="${sapi.jenis}" class="cow-img">
+                        <div class="cow-info">
+                            <h4>Kode: ${sapi.id}</h4>
+                            <p><strong>Berat:</strong> ${sapi.berat} Kg</p>
+                            <p><strong>Usia:</strong> ${sapi.umur}</p>
+                            <p><em>"${sapi.keterangan}"</em></p>
+                            <a href="https://wa.me/6281234567890?text=Halo,%20saya%20tertarik%20dengan%20sapi%20kode%20${sapi.id}%20jenis%20${sapi.jenis}%20berat%20${sapi.berat}Kg." target="_blank" style="display:block; margin-top:15px; text-decoration:none; color:var(--primary); font-weight:bold;">
+                                <i class="fab fa-whatsapp"></i> Tanya Harga
+                            </a>
+                        </div>
+                    </div>
+                `;
+                container.innerHTML += card;
+            });
+        }
+
+        // Fungsi untuk Filter (Interaktif)
+        function filterSapi(jenis) {
+            // Ubah tombol aktif
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter data
+            if(jenis === 'semua') {
+                renderKatalog(dataSapi);
+            } else {
+                const filteredData = dataSapi.filter(sapi => sapi.jenis === jenis);
+                renderKatalog(filteredData);
+            }
+        }
+
+        // Render pertama kali saat web dibuka
+        renderKatalog(dataSapi);
+    </script>
+</body>
+</html>
