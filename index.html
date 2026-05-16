@@ -4,11 +4,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>SURYA Farm — Peternakan Sapi Potong</title>
-  <meta name="description" content="SURYA Farm - katalog sapi potong Simental & Limousin, deskripsi, bobot, harga, dan opsi gambar kustom." />
+  <meta name="description" content="SURYA Farm - katalog sapi potong Simental & Limousin, deskripsi, bobot, harga." />
   <style>
     :root{
       --bg:#071827; --card:#0b1220; --accent:#ffb86b; --muted:#9aa4b2; --glass: rgba(255,255,255,0.04);
-      --success:#22c55e; --shadow: 0 10px 30px rgba(2,6,23,0.6);
+      --shadow: 0 10px 30px rgba(2,6,23,0.6);
       font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
     *{box-sizing:border-box}
@@ -43,7 +43,6 @@
     .modal.open{display:flex}
     .modal-card{width:min(920px,96%); background:#071827; border-radius:12px; padding:16px; border:1px solid rgba(255,255,255,0.04)}
     .close{margin-left:auto; background:transparent; border:0; color:var(--muted); font-size:18px; cursor:pointer}
-    .file-input{display:flex; gap:8px; align-items:center}
     .small{font-size:13px; color:var(--muted)}
     .hint{font-size:12px; color:var(--muted); margin-top:6px}
   </style>
@@ -62,7 +61,7 @@
     <section class="hero" id="top">
       <div class="card">
         <h1>SURYA Farm — Katalog Sapi Potong</h1>
-        <p class="lead">20 ekor tersedia sekarang — hanya dua jenis: <strong>Simental</strong> dan <strong>Limousin</strong>. Semua sapi sehat, siap kirim. Foto default diambil dari folder <code>images/</code> di repo; Anda bisa menggantinya dengan gambar sendiri.</p>
+        <p class="lead">20 ekor tersedia sekarang — hanya dua jenis: <strong>Simental</strong> dan <strong>Limousin</strong>. Semua sapi sehat, siap kirim. Foto default diambil dari folder <code>images/</code> di repo; hanya admin yang dapat mengganti gambar melalui commit ke repo atau panel admin.</p>
         <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
           <div class="small">Harga estimasi berdasarkan bobot hidup (harga per kg: <strong>Simental</strong> Rp 45.000; <strong>Limousin</strong> Rp 55.000).</div>
         </div>
@@ -94,8 +93,8 @@
           <option value="price-desc">Harga: Tinggi ke Rendah</option>
         </select>
         <button class="btn secondary" id="reset">Reset</button>
-  </div>
-  <div id="catalog" class="catalog" aria-live="polite"></div>
+      </div>
+      <div id="catalog" class="catalog" aria-live="polite"></div>
     </section>
 
     <section id="kontak" style="margin-top:18px">
@@ -114,7 +113,7 @@
     </footer>
   </main>
 
-  <!-- Modal detail / upload -->
+  <!-- Modal detail (read-only) -->
   <div id="modal" class="modal" role="dialog" aria-hidden="true">
     <div class="modal-card" role="document">
       <div style="display:flex; align-items:center; gap:12px">
@@ -125,28 +124,28 @@
     </div>
   </div>
 
-  <!-- Gallery modal (simple placeholders) -->
+  <!-- Gallery modal (informasi) -->
   <div id="gallery" class="modal" aria-hidden="true">
     <div class="modal-card">
       <div style="display:flex; align-items:center; gap:12px">
         <h3 style="margin:0">Galeri SURYA Farm</h3>
         <button class="close" id="closeGallery">✕</button>
       </div>
-      <div style="margin-top:12px" class="small">Gambar default diambil dari folder <code>images/</code>. Jika file tidak ada, akan tampil placeholder.</div>
+      <div style="margin-top:12px" class="small">Gambar diambil dari folder <code>images/</code> di repo. Untuk mengganti gambar secara permanen, unggah file ke folder <code>images/</code> dan commit ke repository atau gunakan panel admin yang terproteksi.</div>
       <div style="display:flex; gap:10px; margin-top:12px; overflow:auto; padding-bottom:8px">
         <div style="width:220px; height:140px; border-radius:8px; background:#08101a; display:grid; place-items:center; color:var(--muted)">Foto Kandang</div>
         <div style="width:220px; height:140px; border-radius:8px; background:#08101a; display:grid; place-items:center; color:var(--muted)">Simental</div>
         <div style="width:220px; height:140px; border-radius:8px; background:#08101a; display:grid; place-items:center; color:var(--muted)">Limousin</div>
       </div>
     </div>
-  </div>
-  <script>
+      </div>
+      <script>
     // Pricing assumptions
     const PRICE_PER_KG = { "Simental": 45000, "Limousin": 55000 };
 
     // Default animals: 12 Simental (1-12) and 8 Limousin (13-20)
-    // Each has img pointing to images/ folder (you must add these files to your repo)
-    const defaultAnimals = [
+    // Each img points to images/ folder in repo (admin must upload these files)
+    const animals = [
       { id:1, name:"Simental #1", breed:"Simental", weightRange:"350-420", desc:"Simental unggul: pertumbuhan cepat, daging lembut dan juicy.", img:"images/simental-1.jpg" },
       { id:2, name:"Simental #2", breed:"Simental", weightRange:"380-460", desc:"Simental pilihan: efisiensi pakan baik, temperamen tenang.", img:"images/simental-2.jpg" },
       { id:3, name:"Simental #3", breed:"Simental", weightRange:"400-480", desc:"Simental sehat: catatan vaksin lengkap, siap kirim.", img:"images/simental-3.jpg" },
@@ -170,32 +169,12 @@
       { id:20, name:"Limousin #20", breed:"Limousin", weightRange:"530-650", desc:"Limousin unggulan: performa daging terbaik, manajemen intensif.", img:"images/limousin-20.jpg" }
     ];
 
-    // Load from localStorage if user previously customized images; otherwise use defaults
-    let animals = [];
-    const STORAGE_KEY = 'surya_animals_v1';
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (Array.isArray(parsed) && parsed.length === 20) {
-          animals = parsed;
-        } else {
-          animals = defaultAnimals.map(a => ({ ...a }));
-        }
-      } catch (e) {
-        animals = defaultAnimals.map(a => ({ ...a }));
-      }
-    } else {
-      animals = defaultAnimals.map(a => ({ ...a }));
-    }
-
     // compute price ranges from weightRange and price per kg
-    animals = animals.map(a => {
+    animals.forEach(a => {
       const [minW, maxW] = a.weightRange.split('-').map(n => parseInt(n,10));
       const ppk = PRICE_PER_KG[a.breed] || 0;
-      const min = minW * ppk;
-      const max = maxW * ppk;
-      return { ...a, priceRange: { min, max }, available: true };
+      a.priceRange = { min: minW * ppk, max: maxW * ppk };
+      a.available = true;
     });
 
     // Helpers & DOM refs
@@ -216,20 +195,11 @@
       return 'Rp ' + n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    function saveToStorage(){
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(animals));
-      } catch(e) {
-        console.warn('Gagal menyimpan ke localStorage:', e);
-      }
-    }
-
     function render(list){
       catalogEl.innerHTML = '';
       list.forEach(a=>{
         const div = document.createElement('div');
         div.className = 'item';
-        // image tag with fallback to placeholder if file missing
         const imgTag = `<img src="${a.img}" alt="${a.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">`;
         div.innerHTML = `
           <div class="thumb" id="thumb-${a.id}">
@@ -246,7 +216,7 @@
           </div>
           <div class="actions">
             <button class="btn" onclick="openInquire(${a.id})">Tanya / Pesan</button>
-            <button class="btn secondary" onclick="openDetail(${a.id})">Detail & Gambar</button>
+            <button class="btn secondary" onclick="openDetail(${a.id})">Detail</button>
           </div>
         `;
         catalogEl.appendChild(div);
@@ -288,27 +258,16 @@
     }
     window.openInquire = openInquire;
 
-    // Detail modal with image upload / URL input and persistence to localStorage
+    // Read-only detail modal (no upload, no localStorage)
     function openDetail(id){
       const a = animals.find(x=>x.id===id);
       modalTitle.textContent = a.name;
       modalBody.innerHTML = `
         <div style="display:flex; gap:12px; flex-wrap:wrap">
           <div style="flex:1; min-width:260px">
-            <div style="border-radius:8px; overflow:hidden; background:#08101a; height:260px; display:grid; place-items:center" id="previewWrap">
+            <div style="border-radius:8px; overflow:hidden; background:#08101a; height:260px; display:grid; place-items:center">
               ${a.img ? `<img src="${a.img}" alt="${a.name}" style="width:100%; height:100%; object-fit:cover" onerror="this.onerror=null;this.src='images/placeholder.jpg'">` : `<div style="text-align:center; color:var(--muted)"><div style="font-weight:800">${a.breed}</div><div class="small" style="margin-top:6px">${a.weightRange} kg</div></div>`}
             </div>
-            <div style="margin-top:10px" class="small">Unggah gambar untuk mengganti thumbnail (file lokal akan disimpan di browser Anda sebagai preview dan disimpan ke localStorage).</div>
-            <div style="margin-top:8px" class="file-input">
-              <input type="file" id="fileInput" accept="image/*" />
-              <button class="btn secondary" id="clearImage">Hapus</button>
-            </div>
-            <div style="margin-top:8px" class="small">Atau tempel URL gambar publik (mis. dari GitHub Pages atau hosting lain):</div>
-            <div style="display:flex; gap:8px; margin-top:6px">
-              <input id="imgUrl" placeholder="https://example.com/sapi.jpg" style="flex:1; padding:8px; border-radius:8px; border:1px solid rgba(255,255,255,0.04); background:transparent; color:inherit" />
-              <button class="btn" id="applyUrl">Terapkan</button>
-            </div>
-            <div class="hint">Catatan: Jika Anda ingin gambar permanen di repo, unggah file ke folder <code>images/</code> di repo dan gunakan URL relatif (mis. <code>images/simental-1.jpg</code>).</div>
           </div>
           <div style="flex:1; min-width:260px">
             <div style="font-weight:800">${a.name}</div>
@@ -317,74 +276,15 @@
             <div style="margin-top:10px" class="small">Perkiraan harga: <strong>${formatRupiah(a.priceRange.min)} - ${formatRupiah(a.priceRange.max)}</strong></div>
             <div style="margin-top:12px; display:flex; gap:8px">
               <button class="btn" id="inquireNow">Tanya via WA</button>
-              <button class="btn secondary" id="saveClose">Simpan & Tutup</button>
+              <button class="btn secondary" id="closeOnly">Tutup</button>
             </div>
           </div>
         </div>
       `;
-      // wire up events
       modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
 
-      const fileInput = document.getElementById('fileInput');
-      const previewWrap = document.getElementById('previewWrap');
-      const imgUrlInput = document.getElementById('imgUrl');
-      const applyUrl = document.getElementById('applyUrl');
-      const clearImage = document.getElementById('clearImage');
-      const inquireNow = document.getElementById('inquireNow');
-      const saveClose = document.getElementById('saveClose');
-
-      // load current image url if exists
-      if(a.img) imgUrlInput.value = a.img;
-
-      // handle file upload -> convert to data URL and persist
-      fileInput.addEventListener('change', (e)=>{
-        const f = e.target.files[0];
-        if(!f) return;
-        const reader = new FileReader();
-        reader.onload = function(ev){
-          const src = ev.target.result;
-          previewWrap.innerHTML = `<img src="${src}" alt="${a.name}" style="width:100%; height:100%; object-fit:cover">`;
-          a.img = src;
-          const t = document.getElementById('thumb-'+a.id);
-          if(t) t.innerHTML = `<img src="${src}" alt="${a.name}">`;
-          saveToStorage();
-        };
-        reader.readAsDataURL(f);
-      });
-
-      // apply URL (public or relative)
-      applyUrl.addEventListener('click', ()=>{
-        const url = imgUrlInput.value.trim();
-        if(!url) return;
-        previewWrap.innerHTML = `<img src="${url}" alt="${a.name}" style="width:100%; height:100%; object-fit:cover" onerror="this.onerror=null;this.src='images/placeholder.jpg'">`;
-        a.img = url;
-        const t = document.getElementById('thumb-'+a.id);
-        if(t) t.innerHTML = `<img src="${url}" alt="${a.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">`;
-        saveToStorage();
-      });
-
-      // clear image -> revert to default path in images/ folder if exists, otherwise remove
-      clearImage.addEventListener('click', ()=>{
-        // revert to default image path if defaultAnimals has it
-        const defaultItem = defaultAnimals.find(d => d.id === a.id);
-        if (defaultItem && defaultItem.img) {
-          a.img = defaultItem.img;
-        } else {
-          a.img = null;
-        }
-        previewWrap.innerHTML = a.img ? `<img src="${a.img}" alt="${a.name}" style="width:100%; height:100%; object-fit:cover" onerror="this.onerror=null;this.src='images/placeholder.jpg'">` : `<div style="text-align:center; color:var(--muted)"><div style="font-weight:800">${a.breed}</div><div class="small" style="margin-top:6px">${a.weightRange} kg</div></div>`;
-        const t = document.getElementById('thumb-'+a.id);
-        if(t) {
-          if (a.img) t.innerHTML = `<img src="${a.img}" alt="${a.name}" onerror="this.onerror=null;this.src='images/placeholder.jpg'">`;
-          else t.innerHTML = `<div style="padding:12px; text-align:center"><div style="font-size:20px">${a.breed.split(' ')[0]}</div><div class="small" style="margin-top:6px">${a.weightRange} kg</div></div>`;
-        }
-        imgUrlInput.value = '';
-        fileInput.value = '';
-        saveToStorage();
-      });
-
-      inquireNow.addEventListener('click', ()=> openInquire(a.id));
-      saveClose.addEventListener('click', ()=> { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
+      document.getElementById('inquireNow').addEventListener('click', ()=> openInquire(a.id));
+      document.getElementById('closeOnly').addEventListener('click', ()=> { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); });
     }
     window.openDetail = openDetail;
 
@@ -407,25 +307,6 @@
     liveCount.style.position='absolute'; liveCount.style.left='-9999px';
     liveCount.textContent = `${animals.length} sapi tersedia`;
     document.body.appendChild(liveCount);
-
-    // If user updates localStorage externally, reload UI
-    window.addEventListener('storage', (e) => {
-      if (e.key === STORAGE_KEY) {
-        const newVal = localStorage.getItem(STORAGE_KEY);
-        if (newVal) {
-          try {
-            const parsed = JSON.parse(newVal);
-            if (Array.isArray(parsed) && parsed.length === 20) {
-              animals = parsed;
-              render(animals);
-            }
-          } catch {}
-        }
-      }
-    });
-
-    // Save initial state if not present
-    if (!saved) saveToStorage();
   </script>
 </body>
 </html>
